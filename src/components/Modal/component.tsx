@@ -1,0 +1,272 @@
+import React, {
+  FunctionComponent,
+  HTMLAttributes,
+  useContext,
+  useEffect,
+} from 'react';
+import { createPortal } from 'react-dom';
+import { animated, useTransition } from 'react-spring';
+import styled from 'styled-components';
+import { ModalContext } from './context';
+import { Props } from './types';
+
+/**
+ * This component contains animations definitions
+ * to be used in **Overlay** *component*.
+ */
+const BaseOverlay: FunctionComponent<HTMLAttributes<Element>> = ({
+  className,
+  onClick,
+}) => {
+  const { open } = useContext(ModalContext);
+  const transitions = useTransition(open, null, {
+    from: { backgroundColor: 'rgba(0, 0, 0, 0)' },
+    enter: { backgroundColor: 'rgba(0, 0, 0, 0.75)' },
+    leave: { backgroundColor: 'rgba(0, 0, 0, 0)', pointerEvents: 'none' },
+  });
+  return (
+    <>
+      {transitions.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div
+              key={key}
+              className={className}
+              style={props}
+              onClick={onClick}
+            />
+          )
+      )}
+    </>
+  );
+};
+
+/**
+ * This component contains animations definitions
+ * to be used in **Wrapper** *component*.
+ */
+const BaseWrapper: FunctionComponent<HTMLAttributes<Element>> = ({
+  children,
+  className,
+}) => {
+  const { open } = useContext(ModalContext);
+  const transitions = useTransition(open, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+  return (
+    <>
+      {transitions.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div className={className} key={key} style={props}>
+              {children}
+            </animated.div>
+          )
+      )}
+    </>
+  );
+};
+
+/**
+ * This component contains animations definitions
+ * to be used in **Content** *component*.
+ */
+const BaseContent: FunctionComponent<HTMLAttributes<Element>> = ({
+  children,
+  className,
+}) => {
+  const { open } = useContext(ModalContext);
+  const transitions = useTransition(open, null, {
+    from: { opacity: 0, transform: 'translateY(-32px)' },
+    enter: { opacity: 1, transform: 'translateY(0px)' },
+    leave: { opacity: 0, transform: 'translateY(32px)' },
+  });
+
+  return (
+    <>
+      {transitions.map(
+        ({ item, key, props }) =>
+          item && (
+            <animated.div
+              aria-modal
+              key={key}
+              style={props}
+              className={className}
+            >
+              {children}
+            </animated.div>
+          )
+      )}
+    </>
+  );
+};
+
+/**
+ * This component contains a default HTML
+ * structure for the **CloseButton** *component*.
+ */
+const BaseCloseButton: FunctionComponent<HTMLAttributes<Element>> = ({
+  className,
+  onClick,
+}) => (
+  <button
+    data-dismiss="modal"
+    aria-label="close"
+    className={className}
+    onClick={onClick}
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+);
+
+/**
+ * This component is used to show an
+ * overlay behind floating modal
+ * component.
+ */
+const Overlay = styled(BaseOverlay)`
+  background-color: rgba(0, 0, 0, 0.75);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+`;
+
+/**
+ * This component is used to align the
+ * modal content at the center of the screen,
+ * making the floating box effect.
+ */
+const Wrapper = styled(BaseWrapper)`
+  pointer-events: none;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+`;
+
+/**
+ * This component represents the modal
+ * content area.
+ */
+const Content = styled(BaseContent)`
+  position: relative;
+  pointer-events: auto;
+  min-width: 280px;
+  background-color: #ffffff;
+  padding: 32px;
+  overflow: auto;
+`;
+
+/**
+ * This component is designed to render
+ * the modal modal title and close button
+ */
+const Header = styled.div`
+  display: grid;
+  align-items: center;
+  grid:
+    'title button' auto /
+    1fr 24px;
+  transform: translateY(-65%);
+`;
+
+/**
+ * This component is used to explain
+ * the main purpose of the modal with
+ * a featured text at the top of the modal.
+ */
+const Title = styled.h2`
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  grid-area: title;
+`;
+
+/**
+ * This component is used to close the modal.
+ */
+const CloseButton = styled(BaseCloseButton)`
+  margin: 0;
+  padding: 5px;
+  width: 32px;
+  height: 32px;
+  border: 0px;
+  outline: 0px;
+  opacity: 0.75;
+  font-size: 24px;
+  background-color: transparent;
+  transition: opacity 400ms;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  grid-area: button;
+
+  ::-moz-focus-inner {
+    border: 0px;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+/**
+ * This component is used  to render
+ * the modal's **{children}**
+ */
+const Body = styled.div`
+  font-size: 18px;
+`;
+
+/**
+ * Use this component to show a floating
+ * box where you can put your content inside.
+ */
+const Modal: FunctionComponent<Props> = ({
+  open,
+  close,
+  title,
+  showCloseButton,
+  children,
+}) => {
+  useEffect(() => {
+    const exitOnEsc = ({ keyCode }: KeyboardEvent) => {
+      const ESC = 27;
+      if (keyCode === ESC) close();
+    };
+
+    document.addEventListener('keydown', exitOnEsc);
+    return () => document.removeEventListener('keydown', exitOnEsc);
+  }, [close]);
+
+  return createPortal(
+    <ModalContext.Provider value={{ open, close }}>
+      <Overlay className="modal-overlay" onClick={close} />
+      <Wrapper>
+        <Content>
+          {(title || showCloseButton) && (
+            <Header>
+              {title && <Title>{title}</Title>}
+              {showCloseButton && <CloseButton onClick={close} />}
+            </Header>
+          )}
+          <Body>{children}</Body>
+        </Content>
+      </Wrapper>
+    </ModalContext.Provider>,
+    document.body
+  );
+};
+
+export default Modal;
