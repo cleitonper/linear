@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 import { useDimensions } from 'hooks';
+import { media } from 'helpers';
 import { Link } from 'components/Link';
 import { Props } from './types';
 
@@ -71,6 +72,14 @@ const AppPresentation = styled(AppPresentationBase)`
     line-height: 1.85em;
     padding: 0px 64px;
     opacity: 0.8;
+
+    ${media('xs', 'sm')(css`
+      padding: 0px 16px;
+    `)}
+
+    ${media('sm')(css`
+      padding: 0px 64px;
+    `)}
   }
 `;
 
