@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { media } from 'helpers';
 import { Tab } from 'components/Tab';
 import { Props } from './types';
 
@@ -9,9 +10,16 @@ const TabsBase: FunctionComponent<Props> = ({ className, children }) => (
 
 const Tabs = styled(TabsBase)`
   display: flex;
-  flex-flow: row wrap;
   justify-content: center;
   align-content: center;
+
+  ${media('xs', 'sm')(css`
+    flex-flow: column wrap;
+  `)}
+
+  ${media('sm')(css`
+    flex-flow: row wrap;
+  `)}
 
   ${Tab} {
     opacity: 0.8;
@@ -21,9 +29,17 @@ const Tabs = styled(TabsBase)`
     padding: 8px 16px;
     width: 100px;
 
-    &:not(:last-child) {
-      border-right: 1px solid #ffffff;
-    }
+    ${media('xs', 'sm')(css`
+      :first-child { border-radius: 5px 5px 0px 0px; }
+      :last-child { border-radius: 0px 0px 5px 5px; }
+      :not(:last-child) { border-bottom: none; }
+    `)}
+
+    ${media('sm')(css`
+      :first-child { border-radius: 5px 0px 0px 5px; }
+      :last-child { border-radius: 0px 5px 5px 0px; }
+      :not(:last-child) { border-right: none; }
+    `)}
   }
 `;
 

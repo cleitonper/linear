@@ -24,14 +24,6 @@ const Tab = styled(TabBase)`
   text-decoration: none;
   cursor: pointer;
 
-  :first-child {
-    border-radius: 5px 0px 0px 5px;
-  }
-
-  :last-child {
-    border-radius: 0px 5px 5px 0px;
-  }
-
   :disabled {
     opacity: 0.35 !important;
     cursor: not-allowed;
