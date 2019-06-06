@@ -3,10 +3,12 @@ import React, {
   HTMLAttributes,
   useContext,
   useEffect,
+  useLayoutEffect,
 } from 'react';
 import { createPortal } from 'react-dom';
 import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
+import { breakpoint } from 'helpers';
 import { ModalContext } from './context';
 import { Props } from './types';
 
@@ -136,21 +138,46 @@ const Overlay = styled(BaseOverlay)`
 `;
 
 /**
- * This component is used to align the
- * modal content at the center of the screen,
- * making the floating box effect.
+ * This component is used to put the modal
+ * component above of any others components,
+ * making the floating effect.
  */
 const Wrapper = styled(BaseWrapper)`
-  pointer-events: none;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+
+  @media (min-width: ${breakpoint.sm}) {
+    pointer-events: none;
+  }
+`;
+
+/**
+ * This component is used to align the modal
+ * content at the center of the screen and
+ * show the scroll bar when necessary.
+ */
+const ScrollArea = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  @media (max-width: ${breakpoint.sm}px), (max-height: ${breakpoint.sm}px) {
+    background-color: #ffffff;
+  }
+
+  @media (max-height: ${breakpoint.sm}px) {
+    text-align: center;
+  }
+
+  @media (min-height: ${breakpoint.sm}px) {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 /**
@@ -158,12 +185,20 @@ const Wrapper = styled(BaseWrapper)`
  * content area.
  */
 const Content = styled(BaseContent)`
+  background-color: #ffffff;
   position: relative;
   pointer-events: auto;
   min-width: 280px;
-  background-color: #ffffff;
   padding: 32px;
-  overflow: auto;
+
+  @media (max-width: ${breakpoint.sm}px), (max-height: ${breakpoint.sm}px) {
+    border: 1px solid rgba(180,180,180,0.75);
+  }
+
+  @media (max-height: ${breakpoint.sm}px) {
+    display: inline-block;
+    margin: 32px auto;
+  }
 `;
 
 /**
@@ -250,19 +285,26 @@ const Modal: FunctionComponent<Props> = ({
     return () => document.removeEventListener('keydown', exitOnEsc);
   }, [close]);
 
+  useLayoutEffect(() => {
+    if (open) document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = '' };
+  }, [open]);
+
   return createPortal(
     <ModalContext.Provider value={{ open, close }}>
       <Overlay className="modal-overlay" onClick={close} />
       <Wrapper>
-        <Content>
-          {(title || showCloseButton) && (
-            <Header>
-              {title && <Title>{title}</Title>}
-              {showCloseButton && <CloseButton onClick={close} />}
-            </Header>
-          )}
-          <Body>{children}</Body>
-        </Content>
+        <ScrollArea>
+          <Content>
+            {(title || showCloseButton) && (
+              <Header>
+                {title && <Title>{title}</Title>}
+                {showCloseButton && <CloseButton onClick={close} />}
+              </Header>
+            )}
+            <Body>{children}</Body>
+          </Content>
+        </ScrollArea>
       </Wrapper>
     </ModalContext.Provider>,
     document.body
