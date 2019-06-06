@@ -61,7 +61,7 @@ const BaseStepTwo: FunctionComponent<Props> = ({ className }) => {
 const StepTwo = styled(BaseStepTwo)`
   .matrices {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
     margin-top: 16px;

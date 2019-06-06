@@ -7,7 +7,7 @@ import { AppContext } from 'components/App';
 import { ModalContext } from 'components/Modal';
 import { StepsContext } from 'components/Steps';
 import { Matrix } from 'components/Matrix';
-import { generateLUMatrices, lusolve, det } from 'helpers';
+import { generateLUMatrices, lusolve, det, breakpoint } from 'helpers';
 import { Props } from './types';
 
 const BaseStepThree: FunctionComponent<Props> = ({ className }) => {
@@ -62,14 +62,26 @@ const StepThree = styled(BaseStepThree)`
 
   .matrices {
     display: flex;
-    flex-flow: row wrap;
     justify-content: center;
     align-items: center;
     margin-top: 16px;
-  }
 
-  ${Matrix}:not(:last-child) {
-    margin-right: 24px;
+    @media (max-width: ${breakpoint.sm}px) {
+      flex-flow: column wrap;
+
+      ${Matrix} {
+        margin: 32px;
+        transform: translateX(-15px);
+      }
+    }
+
+    @media (min-width: ${breakpoint.sm}px) {
+      flex-flow: row nowrap;
+
+      ${Matrix}:not(:last-child) {
+        margin-right: 24px;
+      }
+    }
   }
 `;
 

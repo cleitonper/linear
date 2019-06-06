@@ -18,13 +18,15 @@ const BaseMatrixForm: FunctionComponent<Props> = ({
 
 const MatrixForm = styled(BaseMatrixForm)`
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
   transform: translateX(-15px);
 
   .label {
+    display: block;
     margin-right: 6px;
+    min-width: 60px;
   }
 
   .matrix {
