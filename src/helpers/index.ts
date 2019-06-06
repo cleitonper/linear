@@ -1,4 +1,4 @@
-export { media } from './media';
+export { breakpoint } from './breakpoint';
 export { repeatContent } from './repeatContent';
 export { matrixToObject } from './matrixToObject';
 export { objectToMatrix } from './objectToMatrix';

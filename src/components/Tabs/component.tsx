@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import styled, { css } from 'styled-components';
-import { media } from 'helpers';
+import styled from 'styled-components';
+import { breakpoint } from 'helpers';
 import { Tab } from 'components/Tab';
 import { Props } from './types';
 
@@ -13,13 +13,13 @@ const Tabs = styled(TabsBase)`
   justify-content: center;
   align-content: center;
 
-  ${media('xs', 'sm')(css`
+  @media (max-width: ${breakpoint.sm}px) {
     flex-flow: column wrap;
-  `)}
+  }
 
-  ${media('sm')(css`
+  @media (min-width: ${breakpoint.sm}px) {
     flex-flow: row wrap;
-  `)}
+  }
 
   ${Tab} {
     opacity: 0.8;
@@ -29,17 +29,17 @@ const Tabs = styled(TabsBase)`
     padding: 8px 16px;
     width: 100px;
 
-    ${media('xs', 'sm')(css`
+    @media (max-width: ${breakpoint.sm}px) {
       :first-child { border-radius: 5px 5px 0px 0px; }
       :last-child { border-radius: 0px 0px 5px 5px; }
       :not(:last-child) { border-bottom: none; }
-    `)}
+    }
 
-    ${media('sm')(css`
+    @media (min-width: ${breakpoint.sm}px) {
       :first-child { border-radius: 5px 0px 0px 5px; }
       :last-child { border-radius: 0px 5px 5px 0px; }
       :not(:last-child) { border-right: none; }
-    `)}
+    }
   }
 `;
 
