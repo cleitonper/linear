@@ -27,11 +27,12 @@ const BaseMatrix: FunctionComponent<Props> = ({
 
 const Matrix = styled(BaseMatrix)`
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 
   .name {
+    width: 36px;
     margin-right: 6px;
   }
 
@@ -42,7 +43,7 @@ const Matrix = styled(BaseMatrix)`
     display: inline-grid;
     grid: ${({ elements }) =>
       `${repeatContent('1fr', elements.length)} /
-     ${repeatContent('1fr', elements[0].length)}`};
+      ${repeatContent('1fr', elements[0].length)}`};
 
     ::before,
     ::after {

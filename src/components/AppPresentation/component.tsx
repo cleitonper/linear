@@ -2,6 +2,7 @@ import React, { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 import { useDimensions } from 'hooks';
+import { breakpoint } from 'helpers';
 import { Link } from 'components/Link';
 import { Props } from './types';
 
@@ -69,8 +70,15 @@ const AppPresentation = styled(AppPresentationBase)`
     text-transform: uppercase;
     letter-spacing: 0.17em;
     line-height: 1.85em;
-    padding: 0px 64px;
     opacity: 0.8;
+
+    @media (max-width: ${breakpoint.sm}px) {
+      padding: 0px 16px;
+    }
+
+    @media (min-width: ${breakpoint.sm}px) {
+      padding: 0px 64px;
+    }
   }
 `;
 

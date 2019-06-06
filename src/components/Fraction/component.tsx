@@ -29,7 +29,7 @@ const BaseFraction: FunctionComponent<Props> = ({
 
 const Fraction = styled(BaseFraction)`
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
   padding: 12px;
