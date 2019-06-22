@@ -82,7 +82,7 @@ const App: FunctionComponent = () => {
         <Logo />
         <AppPresentation />
         <Tabs>
-          <Tab onClick={openModal('gauss')} disabled>Gauss</Tab>
+          <Tab onClick={openModal('gauss')}>Gauss</Tab>
           <Tab onClick={openModal('lu')}>LU</Tab>
         </Tabs>
         <Modal open={isOpen} close={close}>

@@ -7,5 +7,6 @@ export { matrixFractionToDecimal } from './matrixFractionToDecimal';
 export { matrixDecimalToFraction } from './matrixDecimalToFraction';
 export { generateMatrixFields } from './generateMatrixFields';
 export { generateLUMatrices } from './math/generateLUMatrices';
+export { gausssolve } from './math/gausssolve';
 export { lusolve } from './math/lusolve';
 export { det } from './math/det';

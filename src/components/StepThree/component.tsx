@@ -7,7 +7,8 @@ import { AppContext } from 'components/App';
 import { ModalContext } from 'components/Modal';
 import { StepsContext } from 'components/Steps';
 import { Matrix } from 'components/Matrix';
-import { generateLUMatrices, lusolve, det, breakpoint } from 'helpers';
+import { det, breakpoint, } from 'helpers';
+import { solveEquation } from './helpers';
 import { Props } from './types';
 
 const BaseStepThree: FunctionComponent<Props> = ({ className }) => {
@@ -16,19 +17,11 @@ const BaseStepThree: FunctionComponent<Props> = ({ className }) => {
   const stepsContext = useContext(StepsContext);
   if (!appContext || !modalContext || !stepsContext) return null;
   const { store } = appContext;
-  const { coefficients, results } = store;
+  const { coefficients, results, method } = store;
   const { close } = modalContext;
   const { navigation } = stepsContext;
-
+  const { lower, upper, solution } = solveEquation(method, coefficients, results);
   const isSingular = det(coefficients) === 0;
-
-  const { lower = [], upper = [] } = !isSingular
-    ? generateLUMatrices(coefficients)
-    : {};
-
-  const solution = !isSingular
-    ? lusolve(coefficients, results)
-    : [];
 
   return (
     <div className={className}>
@@ -39,8 +32,8 @@ const BaseStepThree: FunctionComponent<Props> = ({ className }) => {
           message="Não foi possível resolver a equação, pois a matriz inserida é singular." />
         :(
           <div className="matrices">
-            <Matrix name="L" elements={lower} />
-            <Matrix name="U" elements={upper} />
+            { !!lower.length && <Matrix name="L" elements={lower} /> }
+            { !!upper.length && <Matrix name="U" elements={upper} /> }
             <Matrix name="x" elements={solution} />
           </div>
         )}
