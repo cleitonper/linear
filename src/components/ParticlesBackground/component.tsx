@@ -12,10 +12,12 @@ const BaseParticlesBackground: FunctionComponent<Props> = ({ className }) => (
 
 const ParticlesBackground = styled(BaseParticlesBackground)`
   width: 93%;
+  max-height: 100%;
+  overflow: hidden;
+  transform: translate3d(-50%, -50%, 0);
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate3d(-50%, -50%, 0);
 `;
 
 export default ParticlesBackground;
