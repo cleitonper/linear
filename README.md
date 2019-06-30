@@ -7,6 +7,7 @@
 ## Métodos usados 🧐
 
 * Decomposição em LU
+* Eliminação de Gauss
 
 ## Desenvolvimento 🤓
 
