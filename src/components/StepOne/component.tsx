@@ -26,7 +26,7 @@ const BaseStepOne: FunctionComponent<Props> = ({ className }) => {
   };
 
   const options = [
-    { id: 'gauss', title: 'Gauss', disabled: true },
+    { id: 'gauss', title: 'Gauss' },
     { id: 'lu', title: 'LU' },
   ];
 
@@ -37,6 +37,8 @@ const BaseStepOne: FunctionComponent<Props> = ({ className }) => {
       .integer()
       .min(2)
       .max(5),
+    method: Yup.string()
+      .required(),
   });
 
   return (
@@ -46,7 +48,7 @@ const BaseStepOne: FunctionComponent<Props> = ({ className }) => {
       initialData={initialData}
       schema={schema}
     >
-      <Select multiple={false} name="method" label="Selecione um método" options={options} />
+      <Select name="method" label="Selecione um método" options={options} />
       <Input
         name="size"
         label="Informe a ordem do sistema"
