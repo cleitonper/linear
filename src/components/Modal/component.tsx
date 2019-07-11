@@ -150,7 +150,7 @@ const Wrapper = styled(BaseWrapper)`
   bottom: 0;
   right: 0;
 
-  @media (min-width: ${breakpoint.sm}) {
+  @media (min-width: ${breakpoint.sm + 1}px) and (min-height: ${breakpoint.sm + 1}px) {
     pointer-events: none;
   }
 `;
