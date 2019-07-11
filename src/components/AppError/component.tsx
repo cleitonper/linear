@@ -7,11 +7,19 @@ export const BaseAppError: FunctionComponent<Props> = ({
   title,
   message,
   icon,
+  error,
+  info,
 }) => (
   <div className={className}>
     <img className="icon" src={require(`assets/img/errors/${icon}.svg`)} alt="Icone"/>
     <span className="title">{title}</span>
     <span className="message">{message}</span>
+    {(error || info) &&
+      <details>
+        {error && <div>{error.toString()}</div>}
+        {info && <div>{info.componentStack}</div>}
+      </details>
+    }
   </div>
 );
 
@@ -40,6 +48,19 @@ const AppError = styled(BaseAppError)`
     line-height: 1.45em;
     text-align: center;
     margin-top: 12px
+  }
+
+  details {
+    width: 100%;
+    padding: 8px;
+    margin-top: 32px;
+    border-radius: 6px;
+    background: #2e3440;
+    color: #ffffff;
+
+    div {
+      padding: 16px 18px 8px;
+    }
   }
 `;
 

@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { breakpoint } from 'helpers';
 import { ModalContext } from './context';
 import { Props } from './types';
+import { ErrorBoundary } from 'components/ErrorBoundary';
 
 /**
  * This component contains animations definitions
@@ -296,13 +297,15 @@ const Modal: FunctionComponent<Props> = ({
       <Wrapper>
         <ScrollArea>
           <Content>
-            {(title || showCloseButton) && (
-              <Header>
-                {title && <Title>{title}</Title>}
-                {showCloseButton && <CloseButton onClick={close} />}
-              </Header>
-            )}
-            <Body>{children}</Body>
+            <ErrorBoundary>
+              {(title || showCloseButton) && (
+                <Header>
+                  {title && <Title>{title}</Title>}
+                  {showCloseButton && <CloseButton onClick={close} />}
+                </Header>
+              )}
+              <Body>{children}</Body>
+            </ErrorBoundary>
           </Content>
         </ScrollArea>
       </Wrapper>
