@@ -211,6 +211,7 @@ const ScrollArea = styled.div`
  */
 const Content = styled(BaseContent)`
   text-align: left;
+  white-space: normal;
   background-color: #ffffff;
   position: relative;
   pointer-events: auto;
