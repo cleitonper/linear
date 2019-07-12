@@ -54,6 +54,7 @@ const BaseStepOne: FunctionComponent<Props> = ({ className }) => {
         label="Informe a ordem do sistema"
         placeholder="3"
         type="text"
+        autoFocus
       />
       <StepFooter>
         <StepButton action="prev" type="button" onClick={navigation.prev} />

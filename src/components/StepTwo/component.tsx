@@ -45,7 +45,7 @@ const BaseStepTwo: FunctionComponent<Props> = ({ className }) => {
       className={className}
     >
       <div className="matrices">
-        <MatrixForm rows={size} columns={size} name="a" label="A | b" />
+        <MatrixForm rows={size} columns={size} name="a" label="A | b" autoFocus />
         <MatrixForm rows={size} columns={1} name="b" />
       </div>
 

@@ -7,12 +7,13 @@ const BaseMatrixForm: FunctionComponent<Props> = ({
   rows,
   columns,
   className,
+  autoFocus = false,
   label,
   name,
 }) => (
   <div className={className}>
     {label && <span className="label">{`${label} = `}</span>}
-    <div className="matrix">{generateMatrixFields(rows, columns, name)}</div>
+    <div className="matrix">{generateMatrixFields(rows, columns, name, autoFocus)}</div>
   </div>
 );
 
