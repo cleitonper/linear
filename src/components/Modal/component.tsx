@@ -11,7 +11,7 @@ import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
 import { ModalContext } from './context';
 import { Props } from './types';
-import { ErrorBoundary } from 'components/ErrorBoundary';
+import { ModalErrorBoundary } from 'components/ModalErrorBoundary';
 import { useDimensions } from 'hooks';
 import { breakpoint } from 'helpers';
 
@@ -321,7 +321,7 @@ const Modal: FunctionComponent<Props> = ({
       <Wrapper>
         <ScrollArea>
           <Content>
-            <ErrorBoundary>
+            <ModalErrorBoundary>
               {(title || showCloseButton) && (
                 <Header>
                   {title && <Title>{title}</Title>}
@@ -329,7 +329,7 @@ const Modal: FunctionComponent<Props> = ({
                 </Header>
               )}
               <Body>{children}</Body>
-            </ErrorBoundary>
+            </ModalErrorBoundary>
           </Content>
         </ScrollArea>
       </Wrapper>

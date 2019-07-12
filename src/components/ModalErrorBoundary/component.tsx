@@ -1,8 +1,8 @@
 import React, { Component, ErrorInfo } from 'react';
+import { ModalError } from 'components/ModalError';
 import { State } from './types';
-import { AppError } from 'components/AppError';
 
-class ErrorBoundary extends Component<{}, State> {
+class ModalErrorBoundary extends Component<{}, State> {
   constructor() {
     super({});
     this.state = { error: null, info: null };
@@ -15,7 +15,7 @@ class ErrorBoundary extends Component<{}, State> {
   render() {
     if (this.state.error) {
       const { error, info } = this.state;
-      return <AppError
+      return <ModalError
         title="Boom!"
         message="Parece que um erro inesperado aconteceu."
         icon="explosion"
@@ -27,4 +27,4 @@ class ErrorBoundary extends Component<{}, State> {
   }
 }
 
-export default ErrorBoundary;
+export default ModalErrorBoundary;
