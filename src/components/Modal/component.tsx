@@ -321,7 +321,7 @@ const Modal: FunctionComponent<Props> = ({
       <Wrapper>
         <ScrollArea>
           <Content>
-            <ModalErrorBoundary>
+            <ModalErrorBoundary onClose={close}>
               {(title || showCloseButton) && (
                 <Header>
                   {title && <Title>{title}</Title>}
