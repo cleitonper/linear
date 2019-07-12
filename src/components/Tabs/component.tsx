@@ -17,7 +17,7 @@ const Tabs = styled(TabsBase)`
     flex-flow: column wrap;
   }
 
-  @media (min-width: ${breakpoint.sm}px) {
+  @media (min-width: ${breakpoint.sm + 1}px) {
     flex-flow: row wrap;
   }
 
@@ -35,7 +35,7 @@ const Tabs = styled(TabsBase)`
       :not(:last-child) { border-bottom: none; }
     }
 
-    @media (min-width: ${breakpoint.sm}px) {
+    @media (min-width: ${breakpoint.sm + 1}px) {
       :first-child { border-radius: 5px 0px 0px 5px; }
       :last-child { border-radius: 0px 5px 5px 0px; }
       :not(:last-child) { border-right: none; }
