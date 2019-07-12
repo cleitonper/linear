@@ -1,6 +1,6 @@
 import React, { useContext, FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { AppError } from 'components/AppError';
+import { ModalError } from 'components/ModalError';
 import { StepButton } from 'components/StepButton';
 import { StepFooter } from 'components/StepFooter';
 import { AppContext } from 'components/App';
@@ -26,7 +26,7 @@ const BaseStepThree: FunctionComponent<Props> = ({ className }) => {
   return (
     <div className={className}>
       {isSingular
-        ? <AppError
+        ? <ModalError
           icon="matrix"
           title="Matriz Singular"
           message="Não foi possível resolver a equação, pois a matriz inserida é singular." />

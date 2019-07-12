@@ -5,15 +5,27 @@ import { Props } from './types';
 
 const BaseStepButton: FunctionComponent<Props> = ({
   className,
+  disabled,
   action,
   ...props
 }) => {
   const stepsContext = useContext(StepsContext);
-  if (!stepsContext) return null;
+  if (!stepsContext) {
+    return (
+      <button className={className} disabled={disabled} {...props}>
+        <span aria-hidden="true">
+          {action === 'prev' && String.fromCharCode(8249)}
+          {action === 'close' && String.fromCharCode(215)}
+          {action === 'next' && String.fromCharCode(8250)}
+        </span>
+      </button>
+    );
+  };
+
   const { current, last } = stepsContext;
   const hasPrev = current > 0;
   const hasNext = current < last;
-  const disabled =
+  const isDisabled =
     action === 'prev' && !hasPrev
       ? true
       : action === 'next' && !hasNext
@@ -21,7 +33,7 @@ const BaseStepButton: FunctionComponent<Props> = ({
       : false;
 
   return (
-    <button className={className} {...{ ...props, disabled }}>
+    <button className={className} {...{ ...props, disabled: disabled || isDisabled }}>
       <span aria-hidden="true">
         {action === 'prev' && String.fromCharCode(8249)}
         {action === 'close' && String.fromCharCode(215)}

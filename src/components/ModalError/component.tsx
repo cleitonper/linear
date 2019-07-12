@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { Props } from './types';
 
-export const BaseAppError: FunctionComponent<Props> = ({
+export const BaseModalError: FunctionComponent<Props> = ({
   className,
   title,
   message,
@@ -23,7 +23,7 @@ export const BaseAppError: FunctionComponent<Props> = ({
   </div>
 );
 
-const AppError = styled(BaseAppError)`
+const ModalError = styled(BaseModalError)`
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
@@ -64,4 +64,4 @@ const AppError = styled(BaseAppError)`
   }
 `;
 
-export default AppError;
+export default ModalError;
