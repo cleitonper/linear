@@ -4,14 +4,16 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
+  useRef,
 } from 'react';
 import { createPortal } from 'react-dom';
 import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
-import { breakpoint } from 'helpers';
 import { ModalContext } from './context';
 import { Props } from './types';
 import { ErrorBoundary } from 'components/ErrorBoundary';
+import { useDimensions } from 'hooks';
+import { breakpoint } from 'helpers';
 
 /**
  * This component contains animations definitions
@@ -80,11 +82,33 @@ const BaseContent: FunctionComponent<HTMLAttributes<Element>> = ({
   children,
   className,
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { width: elementWidth } = useDimensions(ref);
   const { open } = useContext(ModalContext);
   const transitions = useTransition(open, null, {
     from: { opacity: 0, transform: 'translateY(-32px)' },
     enter: { opacity: 1, transform: 'translateY(0px)' },
     leave: { opacity: 0, transform: 'translateY(32px)' },
+  });
+
+  useEffect(() => {
+    const addMargin = () => {
+      if (!ref.current) return;
+
+      const screenWidth = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+
+      const margin = (elementWidth + 64) >= screenWidth
+        ? '32px'
+        : 'auto';
+
+      ref.current.style.marginLeft = margin;
+      ref.current.style.marginRight = margin;
+    };
+
+    window.addEventListener('resize', addMargin);
+    return () => { window.removeEventListener('resize', addMargin) };
   });
 
   return (
@@ -94,6 +118,7 @@ const BaseContent: FunctionComponent<HTMLAttributes<Element>> = ({
           item && (
             <animated.div
               aria-modal
+              ref={ref}
               key={key}
               style={props}
               className={className}
@@ -150,7 +175,7 @@ const Wrapper = styled(BaseWrapper)`
   bottom: 0;
   right: 0;
 
-  @media (min-width: ${breakpoint.sm}) {
+  @media (min-width: ${breakpoint.sm + 1}px) and (min-height: ${breakpoint.sm + 1}px) {
     pointer-events: none;
   }
 `;
@@ -164,20 +189,19 @@ const ScrollArea = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
+  text-align: center;
+  white-space: nowrap;
+
+  ::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    visibility: hidden;
+    height: 100%;
+  }
 
   @media (max-width: ${breakpoint.sm}px), (max-height: ${breakpoint.sm}px) {
     background-color: #ffffff;
-  }
-
-  @media (max-height: ${breakpoint.sm}px) {
-    text-align: center;
-  }
-
-  @media (min-height: ${breakpoint.sm}px) {
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
   }
 `;
 
@@ -186,19 +210,18 @@ const ScrollArea = styled.div`
  * content area.
  */
 const Content = styled(BaseContent)`
+  text-align: left;
   background-color: #ffffff;
   position: relative;
   pointer-events: auto;
   min-width: 280px;
   padding: 32px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 32px auto;
 
   @media (max-width: ${breakpoint.sm}px), (max-height: ${breakpoint.sm}px) {
     border: 1px solid rgba(180,180,180,0.75);
-  }
-
-  @media (max-height: ${breakpoint.sm}px) {
-    display: inline-block;
-    margin: 32px auto;
   }
 `;
 

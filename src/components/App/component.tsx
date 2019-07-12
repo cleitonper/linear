@@ -15,7 +15,8 @@ import { AppContext } from './context';
 import { reducer, initialState } from './reducer';
 
 const Container = styled.div`
-  max-width: calc(100vw - (100vw - 100%));
+  overflow: auto;
+  min-width: calc(100vw - (100vw - 100%));
   min-height: 100vh;
   display: flex;
   flex-flow: column wrap;
@@ -47,14 +48,18 @@ const Container = styled.div`
     padding: 16px;
   }
 
-  ${Tabs} {
-    margin-top: 64px;
-  }
-
   ${Logo}::after {
     bottom: 0;
     left: 50%;
     transform: translateY(100%);
+  }
+
+  ${AppPresentation} {
+    min-width: 320px;
+  }
+
+  ${Tabs} {
+    margin-top: 64px;
   }
 
   ${Tabs}::before {

@@ -27,10 +27,9 @@ const AppPresentationBase: FunctionComponent<Props> = ({ className }) => {
           Esta ferramenta realiza a resolução de{' '}
           <Link to="https://bit.ly/2J9EZBg">Sistemas de Equações Lineares</Link>{' '}
           usando o método de{' '}
-          <Link to="https://bit.ly/2Yb18n7">Decomposição em LU</Link>. O
-          método de{' '}
-          <Link to="https://bit.ly/2JgGAFd"> Eliminação de Gauss</Link> ainda
-          não está disponível, mas será adicionado em breve.
+          <Link to="https://bit.ly/2Yb18n7">Decomposição em LU</Link>
+          e também o método de{' '}
+          <Link to="https://bit.ly/2JgGAFd"> Eliminação de Gauss</Link>.
         </p>
       </div>
     </animated.div>
